@@ -12,7 +12,7 @@ public class MainActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    THLog.i("hello world 2");
+    THLog.i("hello world");
     findViewById(R.id.tvHello).setOnClickListener(new View.OnClickListener() {
       
       @Override
