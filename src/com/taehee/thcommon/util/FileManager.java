@@ -117,8 +117,9 @@ public class FileManager {
         break;
       
       case FOLDER_OHTER:
-        if (StringUtil.isTrimEmpty(dirPath)) return rootDir = null;
-        rootDir = new File(dirPath);
+        if (StringUtil.isTrimEmpty(dirPath) == false) {
+          rootDir = new File(dirPath);
+        }
         break;
       
       default:
@@ -128,12 +129,12 @@ public class FileManager {
     
     switch (mode) {
       case EXISTED_ONLY:
-        if (!rootDir.exists()) {
+        if (rootDir != null && !rootDir.exists()) {
           rootDir = null;
         }
         break;
       case CREATE_IF_NEEDED:
-        if (!rootDir.exists()) {
+        if (rootDir != null && !rootDir.exists()) {
           if (!rootDir.mkdirs()) {
             rootDir = null;
           }
@@ -586,10 +587,12 @@ public class FileManager {
       
     } else if (file.isDirectory()) {
       String[] list = file.list();
-      int len = list.length;
-      
-      for (int i = 0; i < len; i++)
-        zip_folder(new File(file.getPath() + "/" + list[i]), zout);
+      if (list != null) {
+        int len = list.length;
+        for (int i = 0; i < len; i++) {
+          zip_folder(new File(file.getPath() + "/" + list[i]), zout);
+        }
+      }
     }
   }
   
