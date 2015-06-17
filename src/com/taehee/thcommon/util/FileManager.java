@@ -110,7 +110,6 @@ public class FileManager {
           rootDir = new File(new File(Environment.getExternalStorageDirectory(), EXTERNAL_FORDER_NAME), EXTERNAL_FORDER_FILES_NAME);
         } else {
           File temp = rootDir = new File(new File(Environment.getExternalStorageDirectory(), EXTERNAL_FORDER_NAME), EXTERNAL_FORDER_FILES_NAME);
-          ;
           rootDir = new File(temp.getPath() + dirPath);
         }
         
