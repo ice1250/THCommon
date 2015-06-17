@@ -3,6 +3,9 @@ package com.taehee.thcommon;
 import android.os.Bundle;
 import android.view.View;
 
+import com.taehee.thcommon.crash.BaseCrashAct;
+import com.taehee.thcommon.crash.CrashReportActivity;
+
 public class MainActivity extends BaseCrashAct {
   
   @Override
@@ -16,5 +19,10 @@ public class MainActivity extends BaseCrashAct {
         throw new NullPointerException();
       }
     });
+  }
+  
+  @Override
+  public Class<?> getCrashReportAct() {
+    return CrashReportActivity.class;
   }
 }

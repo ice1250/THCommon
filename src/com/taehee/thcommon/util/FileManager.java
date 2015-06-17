@@ -18,6 +18,9 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import com.taehee.thcommon.conf.Conf;
+import com.taehee.thcommon.crash.BaseCrashAct;
+
 public class FileManager {
   
   public enum FolderType {
@@ -42,10 +45,6 @@ public class FileManager {
     CREATE_IF_NEEDED, // 파일이 없으면 만들고 있으면 가져옴
     CREATE_WITH_DELETE, // 파일존재 상관없이 새로 만든다
   }
-  
-  private static final String EXTERNAL_FORDER_NAME = "taehee";
-  private static final String EXTERNAL_FORDER_CACHE_NAME = "cache";
-  private static final String EXTERNAL_FORDER_FILES_NAME = "files";
   
   /**
    * 디렉토리 생성
@@ -98,18 +97,18 @@ public class FileManager {
       
       case FOLDER_EXTERNAL_CACHE:
         if (StringUtil.isTrimEmpty(dirPath)) {
-          rootDir = new File(new File(Environment.getExternalStorageDirectory(), EXTERNAL_FORDER_NAME), EXTERNAL_FORDER_CACHE_NAME);
+          rootDir = new File(new File(Environment.getExternalStorageDirectory(), Conf.EXTERNAL_FORDER_NAME), Conf.EXTERNAL_FORDER_CACHE_NAME);
         } else {
-          File temp = new File(new File(Environment.getExternalStorageDirectory(), EXTERNAL_FORDER_NAME), EXTERNAL_FORDER_CACHE_NAME);
+          File temp = new File(new File(Environment.getExternalStorageDirectory(), Conf.EXTERNAL_FORDER_NAME), Conf.EXTERNAL_FORDER_CACHE_NAME);
           rootDir = new File(temp.getPath() + dirPath);
         }
         break;
       
       case FOLDER_EXTERNAL_FILES:
         if (StringUtil.isTrimEmpty(dirPath)) {
-          rootDir = new File(new File(Environment.getExternalStorageDirectory(), EXTERNAL_FORDER_NAME), EXTERNAL_FORDER_FILES_NAME);
+          rootDir = new File(new File(Environment.getExternalStorageDirectory(), Conf.EXTERNAL_FORDER_NAME), Conf.EXTERNAL_FORDER_FILES_NAME);
         } else {
-          File temp = rootDir = new File(new File(Environment.getExternalStorageDirectory(), EXTERNAL_FORDER_NAME), EXTERNAL_FORDER_FILES_NAME);
+          File temp = rootDir = new File(new File(Environment.getExternalStorageDirectory(), Conf.EXTERNAL_FORDER_NAME), Conf.EXTERNAL_FORDER_FILES_NAME);
           rootDir = new File(temp.getPath() + dirPath);
         }
         
@@ -168,12 +167,12 @@ public class FileManager {
    * @return
    */
   public static String getExternalRootDirPath(Context context) {
-    String externalRootDirPath = Environment.getExternalStorageDirectory().getPath() + "/" + EXTERNAL_FORDER_NAME + "/";
+    String externalRootDirPath = Environment.getExternalStorageDirectory().getPath() + "/" + Conf.EXTERNAL_FORDER_NAME + "/";
     return externalRootDirPath;
   }
   
   public static String getExternalDirPath(Context context, FolderType type) {
-    String externalRootDirPath = Environment.getExternalStorageDirectory().getPath() + "/" + EXTERNAL_FORDER_NAME + "/";
+    String externalRootDirPath = Environment.getExternalStorageDirectory().getPath() + "/" + Conf.EXTERNAL_FORDER_NAME + "/";
     String result = null;
     switch (type) {
       case FOLDER_INTERNAL_ROOT:
@@ -189,10 +188,10 @@ public class FileManager {
         result = externalRootDirPath;
         break;
       case FOLDER_EXTERNAL_CACHE:
-        result = externalRootDirPath + EXTERNAL_FORDER_CACHE_NAME;
+        result = externalRootDirPath + Conf.EXTERNAL_FORDER_CACHE_NAME;
         break;
       case FOLDER_EXTERNAL_FILES:
-        result = externalRootDirPath + EXTERNAL_FORDER_FILES_NAME;
+        result = externalRootDirPath + Conf.EXTERNAL_FORDER_FILES_NAME;
         break;
       case FOLDER_OHTER:
         break;
@@ -214,6 +213,30 @@ public class FileManager {
    */
   public static File getFile(Context context, String filePath, FolderType type, FileMode fileMode) {
     return getFile(context, filePath, type, FolderMode.CREATE_IF_NEEDED, fileMode);
+  }
+  
+  /**
+   * Crash 발생시 파일 생성
+   * 
+   * @param context
+   * @param name
+   *          파일 이름
+   * @return
+   */
+  public static File getFileForCrashSave(Context context, String name) {
+    return getFile(context, Conf.CRASH_FOLDER_NAME + name + ".txt", FolderType.FOLDER_EXTERNAL_FILES, FolderMode.CREATE_IF_NEEDED, FileMode.CREATE_IF_NEEDED);
+  }
+  
+  /**
+   * 저장된 Crash파일 가져오기
+   * 
+   * @param context
+   * @param name
+   *          파일 이름
+   * @return
+   */
+  public static File getFileForCrashLoad(Context context, String name) {
+    return getFile(context, Conf.CRASH_FOLDER_NAME + name + ".txt", FolderType.FOLDER_EXTERNAL_FILES, FolderMode.EXISTED_ONLY, FileMode.EXISTED_ONLY);
   }
   
   /**
