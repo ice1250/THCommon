@@ -7,12 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.taehee.thcommon.R;
-import com.taehee.thcommon.R.drawable;
 import com.taehee.thcommon.util.EmailUtil;
 import com.taehee.thcommon.util.FileManager;
-import com.taehee.thcommon.util.FileManager.FileMode;
-import com.taehee.thcommon.util.FileManager.FolderMode;
-import com.taehee.thcommon.util.FileManager.FolderType;
 
 public class CrashReportActivity extends Activity {
   
